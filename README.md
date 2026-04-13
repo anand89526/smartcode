@@ -1,40 +1,144 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SmartCode
 
-## Getting Started
+SmartCode is a coding practice platform built for learners who want more than a plain problem list. It combines a modern Next.js frontend with a lightweight Express and MongoDB backend to support authentication, problem browsing, dashboard flows, and coding-focused product pages such as battle mode, solve, and leaderboard views.
 
-First, run the development server:
+## Highlights
+
+- Modern frontend built with Next.js App Router, React, TypeScript, and Tailwind CSS.
+- Interactive UI with `framer-motion` animations and Monaco editor support.
+- Authentication flow with signup and login pages connected to the backend API.
+- Problem management API with routes for creating and fetching coding problems.
+- Dedicated pages for dashboard, problems, solve, battle, leaderboard, login, and signup.
+
+## Tech Stack
+
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS 4
+- UI: Framer Motion, Lucide React, Monaco Editor
+- Backend: Node.js, Express, MongoDB, Mongoose
+
+## Project Structure
+
+```text
+smartcode/
+|- app/                 # Next.js app routes and pages
+|- components/          # Shared frontend components
+|- public/              # Static assets
+|- backend/
+|  |- models/           # Mongoose models
+|  |- routes/           # Express API routes
+|  |- server.js         # Backend entry point
+|- package.json         # Frontend dependencies and scripts
+```
+
+## Local Setup
+
+### 1. Install dependencies
+
+Frontend:
+
+```bash
+npm install
+```
+
+Backend:
+
+```bash
+cd backend
+npm install
+```
+
+### 2. Start MongoDB
+
+Make sure MongoDB is running locally on:
+
+```text
+mongodb://127.0.0.1:27017/smartcode
+```
+
+The current backend is configured to connect to that local database directly in `backend/server.js`.
+
+### 3. Run the backend
+
+From the `backend` folder:
+
+```bash
+node server.js
+```
+
+The API runs on:
+
+```text
+http://localhost:5000
+```
+
+### 4. Run the frontend
+
+From the project root:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The frontend runs on:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Frontend Routes
 
-## Learn More
+- `/` - landing page
+- `/login` - login screen
+- `/signup` - signup screen
+- `/dashboard` - user dashboard
+- `/problems` - problem list
+- `/solve` - coding workspace
+- `/battle` - battle mode page
+- `/leaderboard` - leaderboard page
 
-To learn more about Next.js, take a look at the following resources:
+## Backend API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Auth
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
 
-## Deploy on Vercel
+### Problems
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `GET /api/problems`
+- `POST /api/problems/add`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# smartcode
->>>>>>> 9288927bfc476fb1d3cbcf1795b844567ce6b7cb
+## Current Notes
+
+- Authentication is currently basic and compares raw passwords in the database.
+- The backend is configured for local development and expects a local MongoDB instance.
+- There are no automated tests configured yet.
+
+## Scripts
+
+Frontend:
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
+
+Backend:
+
+```bash
+node server.js
+```
+
+## Roadmap Ideas
+
+- Secure authentication with password hashing and JWT or session support
+- Online code execution and test-case validation
+- Real-time multiplayer battles
+- Progress tracking and performance analytics
+- AI-assisted hints and learning recommendations
+
+## Status
+
+SmartCode is a strong early-stage foundation for a coding platform and is ready for continued feature development, UI refinement, and backend hardening.
