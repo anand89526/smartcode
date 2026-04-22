@@ -1,133 +1,126 @@
-"use client"
+"use client";
 
-import Navbar from "../components/Navbar"
-import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import HeroAnimation from "@/components/HeroAnimation";
+
+const features = [
+  { icon: "⚡", label: "Live Battles", desc: "Real-time duels with ranking" },
+  { icon: "🎯", label: "Smart Problems", desc: "Adaptive difficulty progression" },
+  { icon: "📊", label: "Dashboard", desc: "Complete performance analytics" },
+  { icon: "🏆", label: "Rankings", desc: "Global competitive leaderboards" },
+  { icon: "📈", label: "Streaks", desc: "Track momentum and consistency" },
+  { icon: "💻", label: "Code Editor", desc: "Full IDE with instant feedback" },
+];
 
 export default function Home() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   return (
-    <div className="bg-[#0d1117] text-white min-h-screen">
+    <div className="relative min-h-screen overflow-hidden bg-[#020617] text-white">
+      {/* Background Elements */}
+      <div className="hero-grid absolute inset-0 opacity-20" />
+      <div className="cyber-dots absolute inset-0 opacity-[0.06]" />
+      <div className="orb left-[5%] top-24 h-56 w-56 bg-cyan-400/20" />
+      <div className="orb right-[8%] top-44 h-72 w-72 bg-emerald-400/18 [animation-delay:1.6s]" />
 
-      <Navbar />
+      <Navbar variant="public" />
 
-      {/* HERO SECTION */}
-      <div className="grid grid-cols-2 items-center px-16 py-20">
+      {/* Hero Section */}
+      <HeroAnimation onExplore={() => router.push("/signup")} />
 
-        {/* LEFT SIDE */}
-        <div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-bold leading-tight"
+      {/* Features Grid */}
+      <section className="relative z-10 mx-auto max-w-6xl px-4 py-24">
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-100 to-emerald-200 bg-clip-text text-transparent"
           >
-            Transform Your Coding Journey 🚀
-          </motion.h1>
+            Everything You Need
+          </motion.h2>
+        </div>
 
-          <p className="text-gray-400 mt-6 text-lg">
-            SmartCode is an AI-powered coding platform where you can solve problems,
-            compete in real-time battles, and improve your DSA skills with structured learning.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ y: -4 }}
+              className="group rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-6 hover:border-white/20 hover:bg-white/10 transition"
+            >
+              <div className="text-5xl mb-4 group-hover:scale-110 transition">{feature.icon}</div>
+              <h3 className="text-xl font-semibold text-white mb-2">{feature.label}</h3>
+              <p className="text-sm text-slate-400">{feature.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="relative z-10 mx-auto max-w-4xl px-4 py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-12 backdrop-blur-lg"
+        >
+          <h2 className="text-4xl font-bold mb-6">About SmartCode</h2>
+          <p className="text-lg text-slate-300 mb-4">
+            A competitive coding platform built for speed and performance. Practice problems, battle other coders in real-time, and climb the global rankings.
+          </p>
+          <p className="text-base text-slate-400">
+            Sign in to access your dashboard, track progress, join battles, and compete with thousands of developers worldwide.
           </p>
 
           <div className="mt-8 flex gap-4">
-
-            <button
-              onClick={() => router.push("/login")}
-              className="px-6 py-3 bg-green-500 rounded-lg hover:bg-green-600 transition"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/signup")}
+              className="rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 px-8 py-3 font-semibold text-white shadow-lg hover:shadow-cyan-400/50"
             >
-              Start Coding
-            </button>
-
-            <button className="px-6 py-3 border border-gray-600 rounded-lg hover:bg-gray-800 transition">
-              Explore Problems
-            </button>
-
+              Get Started
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/login")}
+              className="rounded-full border-2 border-white/30 px-8 py-3 font-semibold text-white hover:border-white/50 hover:bg-white/10"
+            >
+              Sign In
+            </motion.button>
           </div>
-
-          {/* STATS */}
-          <div className="flex gap-10 mt-12 text-center">
-
-            <div>
-              <p className="text-2xl font-bold text-green-400">150+</p>
-              <p className="text-gray-400 text-sm">Problems</p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-bold text-green-400">50+</p>
-              <p className="text-gray-400 text-sm">Battles Played</p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-bold text-green-400">95%</p>
-              <p className="text-gray-400 text-sm">Success Rate</p>
-            </div>
-
-          </div>
-
-        </div>
-
-        {/* RIGHT SIDE (ANIMATION / VISUAL) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="flex justify-center"
-        >
-
-          <div className="w-[400px] h-[400px] rounded-full bg-gradient-to-r from-green-400 to-blue-500 blur-3xl opacity-30"></div>
-
         </motion.div>
+      </section>
 
-      </div>
-
-      {/* FEATURES SECTION */}
-      <div className="px-16 py-20">
-
-        <h2 className="text-3xl font-bold text-center text-green-400 mb-12">
-          Why SmartCode?
-        </h2>
-
-        <div className="grid grid-cols-3 gap-8">
-
-          {/* Feature 1 */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-[#161b22] p-6 rounded-xl"
-          >
-            <h3 className="text-xl font-bold">AI Hints</h3>
-            <p className="text-gray-400 mt-2">
-              Get intelligent hints instead of full solutions.
-            </p>
-          </motion.div>
-
-          {/* Feature 2 */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-[#161b22] p-6 rounded-xl"
-          >
-            <h3 className="text-xl font-bold">Battle Mode ⚔️</h3>
-            <p className="text-gray-400 mt-2">
-              Compete with others in real-time coding battles.
-            </p>
-          </motion.div>
-
-          {/* Feature 3 */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-[#161b22] p-6 rounded-xl"
-          >
-            <h3 className="text-xl font-bold">Learning Path</h3>
-            <p className="text-gray-400 mt-2">
-              Follow structured DSA roadmap to improve skills.
-            </p>
-          </motion.div>
-
-        </div>
-
-      </div>
-
+      {/* Footer CTA */}
+      <section className="relative z-10 mx-auto max-w-4xl px-4 py-24 text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="py-12"
+        >
+          <h3 className="text-2xl font-bold mb-4">Ready to compete?</h3>
+          <p className="text-slate-300 mb-8">Join thousands of developers improving their coding skills.</p>
+          <div className="inline-flex gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/signup")}
+              className="rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 px-8 py-3 font-semibold text-white"
+            >
+              Create Account
+            </motion.button>
+          </div>
+        </motion.div>
+      </section>
     </div>
-  )
+  );
 }
