@@ -10,6 +10,10 @@ type CodeEditorProps = {
   height?: string;
   onRun?: () => void;
   onSubmit?: () => void;
+  fontSize?: number;
+  wordWrap?: "on" | "off";
+  minimap?: boolean;
+  readOnly?: boolean;
 };
 
 export default function CodeEditor({
@@ -19,49 +23,54 @@ export default function CodeEditor({
   height = "500px",
   onRun,
   onSubmit,
+  fontSize = 14,
+  wordWrap = "off",
+  minimap = false,
+  readOnly = false,
 }: CodeEditorProps) {
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
 
   const handleEditorMount = useCallback((editor: Parameters<OnMount>[0], monaco: Parameters<OnMount>[1]) => {
     editorRef.current = editor as Parameters<OnMount>[0];
 
-    // Define custom SmartCode dark theme
-    monaco.editor.defineTheme("smartcode-dark", {
-      base: "vs-dark",
+    monaco.editor.defineTheme("smartcode-light", {
+      base: "vs",
       inherit: true,
       rules: [
-        { token: "comment", foreground: "6a737d", fontStyle: "italic" },
-        { token: "keyword", foreground: "ff7b72" },
-        { token: "string", foreground: "a5d6ff" },
-        { token: "number", foreground: "79c0ff" },
-        { token: "type", foreground: "ffa657" },
-        { token: "function", foreground: "d2a8ff" },
-        { token: "variable", foreground: "c9d1d9" },
-        { token: "operator", foreground: "ff7b72" },
-        { token: "delimiter", foreground: "8b949e" },
-        { token: "identifier", foreground: "c9d1d9" },
+        { token: "comment", foreground: "8A8B90", fontStyle: "italic" },
+        { token: "keyword", foreground: "1C1D22", fontStyle: "bold" },
+        { token: "string", foreground: "0F9F8D" },
+        { token: "number", foreground: "B36A1A" },
+        { token: "type", foreground: "5F5BFF" },
+        { token: "function", foreground: "D96BA7" },
+        { token: "variable", foreground: "26272B" },
+        { token: "operator", foreground: "1C1D22" },
+        { token: "delimiter", foreground: "767881" },
+        { token: "identifier", foreground: "26272B" },
       ],
       colors: {
-        "editor.background": "#0d1117",
-        "editor.foreground": "#c9d1d9",
-        "editor.lineHighlightBackground": "#161b2280",
-        "editor.selectionBackground": "#264f7840",
-        "editor.inactiveSelectionBackground": "#264f7820",
-        "editorCursor.foreground": "#62ffb6",
-        "editorLineNumber.foreground": "#484f58",
-        "editorLineNumber.activeForeground": "#8b949e",
-        "editor.selectionHighlightBackground": "#264f7830",
-        "editorBracketMatch.background": "#3dd2ff20",
-        "editorBracketMatch.border": "#3dd2ff40",
-        "editorIndentGuide.background": "#21262d",
-        "editorIndentGuide.activeBackground": "#30363d",
-        "scrollbarSlider.background": "#484f5833",
-        "scrollbarSlider.hoverBackground": "#484f5855",
-        "scrollbarSlider.activeBackground": "#484f5877",
+        "editor.background": "#F7F4EE",
+        "editor.foreground": "#18191D",
+        "editor.lineHighlightBackground": "#ECE8DF",
+        "editor.selectionBackground": "#79F2DD55",
+        "editor.inactiveSelectionBackground": "#D7D1C444",
+        "editorCursor.foreground": "#171719",
+        "editorLineNumber.foreground": "#AAA79F",
+        "editorLineNumber.activeForeground": "#34353B",
+        "editor.selectionHighlightBackground": "#79F2DD33",
+        "editorBracketMatch.background": "#17171912",
+        "editorBracketMatch.border": "#17171966",
+        "editorIndentGuide.background": "#DED9CE",
+        "editorIndentGuide.activeBackground": "#BDB7AA",
+        "editorGutter.background": "#F7F4EE",
+        "editorWhitespace.foreground": "#DDD7CA",
+        "scrollbarSlider.background": "#17171922",
+        "scrollbarSlider.hoverBackground": "#17171933",
+        "scrollbarSlider.activeBackground": "#17171944",
       },
     });
 
-    monaco.editor.setTheme("smartcode-dark");
+    monaco.editor.setTheme("smartcode-light");
 
     // Keyboard shortcuts
     if (onRun) {
@@ -89,13 +98,13 @@ export default function CodeEditor({
       height={height}
       defaultLanguage={language}
       language={language}
-      theme="smartcode-dark"
+      theme="smartcode-light"
       value={code}
       onChange={(value) => onChange(value || "")}
       onMount={handleEditorMount}
       options={{
-        minimap: { enabled: false },
-        fontSize: 14,
+        minimap: { enabled: minimap },
+        fontSize,
         lineHeight: 22,
         padding: { top: 16, bottom: 16 },
         roundedSelection: true,
@@ -115,8 +124,9 @@ export default function CodeEditor({
           horizontalScrollbarSize: 6,
           useShadows: false,
         },
-        wordWrap: "off",
+        wordWrap,
         automaticLayout: true,
+        readOnly,
         suggest: {
           showMethods: true,
           showFunctions: true,

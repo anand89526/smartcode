@@ -39,6 +39,7 @@ const starterProblems = [
     difficulty: "Easy",
     description: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
     tags: ["Array", "Hash Map"],
+    companies: ["Google", "Amazon", "Meta", "Apple"],
     points: 100,
     compareMode: "unordered_array",
     acceptanceRate: 54,
@@ -1446,11 +1447,42 @@ const starterProblems = [
 ]
 
 async function seedProblems() {
-  await Promise.all(
+  const seededProblems = await Promise.all(
     starterProblems.map((problem) =>
       Problem.findOneAndUpdate(
         { slug: problem.slug },
         { $set: problem },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      )
+    )
+  )
+
+  const StudyPlan = require("../models/StudyPlan");
+  const top150Problems = seededProblems.filter(p => ["two-sum", "best-time-to-buy-and-sell-stock", "valid-parentheses", "merge-intervals"].includes(p.slug)).map(p => p._id);
+  const algo1Problems = seededProblems.filter(p => ["binary-search", "find-minimum-in-rotated-sorted-array", "search-in-rotated-sorted-array"].includes(p.slug)).map(p => p._id);
+  
+  const plans = [
+    {
+      title: "Top Interview 150",
+      slug: "top-interview-150",
+      description: "Must-do list for interview prep",
+      color: "#f59e0b",
+      problems: top150Problems
+    },
+    {
+      title: "Algorithm I",
+      slug: "algorithm-i",
+      description: "Essential algorithmic patterns",
+      color: "#3b82f6",
+      problems: algo1Problems
+    }
+  ];
+
+  await Promise.all(
+    plans.map((plan) =>
+      StudyPlan.findOneAndUpdate(
+        { slug: plan.slug },
+        { $set: plan },
         { upsert: true, new: true, setDefaultsOnInsert: true }
       )
     )

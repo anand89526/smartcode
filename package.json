@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:3000": "cross-env PORT=3000 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -24,6 +25,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "cross-env": "^7.0.3"
   }
 }

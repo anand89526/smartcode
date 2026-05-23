@@ -57,9 +57,9 @@ type DashboardData = {
 };
 
 const difficultyTone = {
-  Easy: "bg-emerald-400/12 text-emerald-100",
-  Medium: "bg-amber-400/12 text-amber-100",
-  Hard: "bg-rose-400/12 text-rose-100",
+  Easy: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200 font-semibold",
+  Medium: "bg-amber-100 text-amber-800 ring-1 ring-amber-200 font-semibold",
+  Hard: "bg-rose-100 text-rose-800 ring-1 ring-rose-200 font-semibold",
 };
 
 export default function Dashboard() {
@@ -119,7 +119,7 @@ export default function Dashboard() {
 
   if (loading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--page-bg)] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-[var(--page-bg)] text-[var(--foreground)]">
         Loading dashboard...
       </div>
     );
@@ -127,7 +127,7 @@ export default function Dashboard() {
 
   if (error || !dashboard) {
     return (
-      <div className="min-h-screen bg-[var(--page-bg)] text-white">
+      <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)]">
         <Navbar variant="app" user={user} onProfileClick={() => setIsProfileOpen(true)} />
         <ProfileSettings
           user={user}
@@ -136,7 +136,7 @@ export default function Dashboard() {
           onUserUpdated={setUser}
         />
         <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="glass-card rounded-[32px] p-8 text-rose-100">{error || "Unable to load dashboard."}</div>
+          <div className="glass-card rounded-[32px] p-8 text-rose-900">{error || "Unable to load dashboard."}</div>
         </div>
       </div>
     );
@@ -155,7 +155,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--page-bg)] text-white">
+    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)]">
       <Navbar variant="app" user={user} onProfileClick={() => setIsProfileOpen(true)} />
       <ProfileSettings
         user={user}
@@ -168,23 +168,23 @@ export default function Dashboard() {
       />
 
       <main className="relative overflow-hidden px-4 pb-14 pt-6 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(61,210,255,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(255,184,77,0.14),transparent_26%),radial-gradient(circle_at_bottom,rgba(98,255,182,0.12),transparent_30%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(121,242,221,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(246,179,215,0.14),transparent_26%),radial-gradient(circle_at_bottom,rgba(23,23,25,0.05),transparent_30%)]" />
 
         <div className="relative z-10 mx-auto max-w-7xl space-y-8">
           <motion.section
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid gap-6 overflow-hidden rounded-[36px] border border-white/10 bg-[linear-gradient(140deg,rgba(4,11,21,0.96),rgba(11,24,44,0.9))] p-8 shadow-[0_40px_120px_rgba(0,0,0,0.4)] lg:grid-cols-[1.15fr_0.85fr]"
+            className="grid gap-6 overflow-hidden rounded-[36px] border border-black/8 bg-[rgba(255,255,255,0.82)] p-8 shadow-[0_40px_120px_rgba(23,23,25,0.12)] lg:grid-cols-[1.15fr_0.85fr]"
           >
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/18 bg-cyan-300/8 px-4 py-2 text-sm text-cyan-100">
+              <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-[var(--foreground)]">
                 <Sparkles className="h-4 w-4" />
                 Live competitive profile
               </div>
-              <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
+              <h1 className="mt-6 max-w-3xl font-mono text-3xl font-semibold leading-tight tracking-[-0.02em] sm:text-4xl">
                 {dashboard.user.name}, your coding workspace is now running on real user data.
               </h1>
-              <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+              <p className="mt-4 max-w-3xl text-base leading-7 text-[var(--muted-strong)]">
                 Every solve, point, streak, and ranking change is pulled from MongoDB, so this dashboard reflects the actual state of your platform instead of placeholder UI.
               </p>
 
@@ -194,11 +194,11 @@ export default function Dashboard() {
                   return (
                     <div
                       key={item.label}
-                      className={`rounded-[26px] border border-white/10 bg-gradient-to-br ${item.color} p-5 backdrop-blur`}
+                      className="rounded-[26px] border border-black/8 bg-white/78 p-5 backdrop-blur"
                     >
-                      <Icon className="h-5 w-5 text-white/70" />
-                      <p className="mt-4 text-sm text-slate-300">{item.label}</p>
-                      <p className="mt-2 text-3xl font-semibold text-white">{item.value}</p>
+                      <Icon className="h-5 w-5 text-[var(--foreground)]/70" />
+                      <p className="mt-4 text-sm font-medium text-[var(--muted-strong)]">{item.label}</p>
+                      <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{item.value}</p>
                     </div>
                   );
                 })}
@@ -208,27 +208,27 @@ export default function Dashboard() {
             <div className="glass-card-strong rounded-[32px] p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-200/70">Profile node</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-[var(--muted)]">Profile node</p>
                   <h2 className="mt-3 text-2xl font-semibold">{dashboard.user.level}</h2>
-                  <p className="mt-2 text-sm text-slate-300">{dashboard.user.bio}</p>
+                  <p className="mt-2 text-sm text-[var(--muted-strong)]">{dashboard.user.bio}</p>
                 </div>
-                <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-[linear-gradient(135deg,#62ffb6,#3dd2ff)] text-xl font-bold text-slate-950">
+                <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-[#171719] text-xl font-bold text-[var(--accent)]">
                   {dashboard.user.name.slice(0, 1).toUpperCase()}
                 </div>
               </div>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Points</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Points</p>
                   <p className="mt-2 text-3xl font-semibold">{dashboard.user.points}</p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className="mt-2 text-sm text-[var(--muted-strong)]">
                     {dashboard.user.acceptedSubmissions} accepted out of {dashboard.user.totalSubmissions} submissions
                   </p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Platform scale</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Platform scale</p>
                   <p className="mt-2 text-3xl font-semibold">{dashboard.stats.totalUsers}</p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className="mt-2 text-sm text-[var(--muted-strong)]">
                     {dashboard.stats.onlineUsers} users online, {dashboard.stats.totalProblems} live problems, {dashboard.stats.totalSubmissions} submissions
                   </p>
                 </div>
@@ -237,13 +237,13 @@ export default function Dashboard() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/solve"
-                  className="rounded-full bg-[linear-gradient(135deg,#62ffb6,#3dd2ff)] px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]"
+                  className="rounded-full bg-[#111214] px-5 py-2.5 text-sm font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md"
                 >
                   Start solving
                 </Link>
                 <Link
                   href="/leaderboard"
-                  className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-white transition hover:bg-white/10"
+                  className="rounded-full border border-black/12 bg-white/90 px-5 py-2.5 text-sm font-medium text-[var(--foreground)] shadow-sm transition hover:bg-white hover:shadow-md"
                 >
                   View leaderboard
                 </Link>
@@ -259,17 +259,17 @@ export default function Dashboard() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Recommended</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-[var(--muted)]">Recommended</p>
                   <h2 className="mt-2 text-2xl font-semibold">Next problems to unlock more points</h2>
                 </div>
-                <Link href="/problems" className="text-sm text-cyan-200 hover:text-white">
+                <Link href="/problems" className="text-sm text-[var(--foreground)] hover:text-black">
                   Browse all
                 </Link>
               </div>
 
               <div className="mt-6 space-y-4">
                 {dashboard.recommendedProblems.length === 0 ? (
-                  <div className="rounded-[24px] border border-white/10 bg-white/5 p-5 text-slate-300">
+                  <div className="rounded-[24px] border border-black/8 bg-white/78 p-5 text-[var(--muted-strong)]">
                     You have solved every currently seeded problem. Add more problems from the backend to expand the library.
                   </div>
                 ) : (
@@ -277,11 +277,11 @@ export default function Dashboard() {
                     <Link
                       key={problem.id}
                       href={`/solve?problemId=${problem.id}`}
-                      className="block rounded-[24px] border border-white/10 bg-white/5 p-5 transition hover:bg-white/8"
+                      className="block rounded-[24px] border border-black/8 bg-white/78 p-5 transition hover:bg-white"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <p className="text-lg font-medium text-white">{problem.title}</p>
+                          <p className="text-lg font-medium text-[var(--foreground)]">{problem.title}</p>
                           <div className="mt-3 flex flex-wrap gap-2">
                             <span className={`rounded-full px-3 py-1 text-xs ${difficultyTone[problem.difficulty]}`}>
                               {problem.difficulty}
@@ -289,14 +289,14 @@ export default function Dashboard() {
                             {problem.tags.map((tag) => (
                               <span
                                 key={tag}
-                                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300"
+                                className="rounded-full border border-black/8 bg-[var(--page-bg)] px-3 py-1 text-xs text-[var(--muted-strong)]"
                               >
                                 {tag}
                               </span>
                             ))}
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 text-cyan-200">
+                        <div className="flex items-center gap-2 text-[var(--foreground)]">
                           <span className="text-sm">{problem.points} pts</span>
                           <ArrowUpRight className="h-4 w-4" />
                         </div>
@@ -314,43 +314,43 @@ export default function Dashboard() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Recent activity</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-[var(--muted)]">Recent activity</p>
                   <h2 className="mt-2 text-2xl font-semibold">Submission timeline</h2>
                 </div>
-                <Activity className="h-5 w-5 text-cyan-200" />
+                <Activity className="h-5 w-5 text-[var(--foreground)]" />
               </div>
 
               <div className="mt-6 space-y-4">
                 {dashboard.recentSubmissions.length === 0 ? (
-                  <div className="rounded-[24px] border border-white/10 bg-white/5 p-5 text-slate-300">
+                  <div className="rounded-[24px] border border-black/8 bg-white/78 p-5 text-[var(--muted-strong)]">
                     No submissions yet. Solve your first problem to start building real activity data.
                   </div>
                 ) : (
                   dashboard.recentSubmissions.map((submission) => (
                     <div
                       key={submission.id}
-                      className="rounded-[24px] border border-white/10 bg-white/5 p-5"
+                      className="rounded-[24px] border border-black/8 bg-white/78 p-5"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <p className="text-lg font-medium">{submission.problem.title}</p>
-                          <p className="mt-2 text-sm text-slate-300">
+                          <p className="mt-2 text-sm text-[var(--muted-strong)]">
                             Passed {submission.passedCount}/{submission.totalCount} tests
                           </p>
                         </div>
                         <span
                           className={`rounded-full px-3 py-1 text-xs ${
                             submission.status === "accepted"
-                              ? "bg-emerald-400/12 text-emerald-100"
+                              ? "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200 font-semibold"
                               : submission.status === "wrong_answer"
-                                ? "bg-amber-400/12 text-amber-100"
-                                : "bg-rose-400/12 text-rose-100"
+                                ? "bg-amber-100 text-amber-800 ring-1 ring-amber-200 font-semibold"
+                                : "bg-rose-100 text-rose-800 ring-1 ring-rose-200 font-semibold"
                           }`}
                         >
                           {submission.status.replace("_", " ")}
                         </span>
                       </div>
-                      <div className="mt-4 flex items-center gap-4 text-xs text-slate-400">
+                      <div className="mt-4 flex items-center gap-4 text-xs text-[var(--muted)]">
                         <span className={`rounded-full px-3 py-1 ${difficultyTone[submission.problem.difficulty]}`}>
                           {submission.problem.difficulty}
                         </span>
@@ -374,32 +374,32 @@ export default function Dashboard() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Platform health</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-[var(--muted)]">Platform health</p>
                   <h2 className="mt-2 text-2xl font-semibold">Real-time metrics</h2>
                 </div>
-                <Users className="h-5 w-5 text-cyan-200" />
+                <Users className="h-5 w-5 text-[var(--foreground)]" />
               </div>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Registered users</p>
-                  <p className="mt-2 text-3xl font-semibold">{dashboard.stats.totalUsers}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm font-medium text-[var(--muted-strong)]">Registered users</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{dashboard.stats.totalUsers}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Users online</p>
-                  <p className="mt-2 text-3xl font-semibold">{dashboard.stats.onlineUsers}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm font-medium text-[var(--muted-strong)]">Users online</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{dashboard.stats.onlineUsers}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Problem bank</p>
-                  <p className="mt-2 text-3xl font-semibold">{dashboard.stats.totalProblems}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm font-medium text-[var(--muted-strong)]">Problem bank</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{dashboard.stats.totalProblems}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Battles live</p>
-                  <p className="mt-2 text-3xl font-semibold">{dashboard.stats.activeBattles}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm font-medium text-[var(--muted-strong)]">Battles live</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{dashboard.stats.activeBattles}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Battle queue</p>
-                  <p className="mt-2 text-3xl font-semibold">{dashboard.stats.queueUsers}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm font-medium text-[var(--muted-strong)]">Battle queue</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">{dashboard.stats.queueUsers}</p>
                 </div>
               </div>
             </motion.div>
@@ -411,10 +411,10 @@ export default function Dashboard() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Leaderboard</p>
+                  <p className="text-sm uppercase tracking-[0.28em] text-[var(--muted)]">Leaderboard</p>
                   <h2 className="mt-2 text-2xl font-semibold">Current top performers</h2>
                 </div>
-                <Link href="/leaderboard" className="inline-flex items-center gap-1 text-sm text-cyan-200 hover:text-white">
+                <Link href="/leaderboard" className="inline-flex items-center gap-1 text-sm text-[var(--foreground)] hover:text-black">
                   View full
                   <ChevronRight className="h-4 w-4" />
                 </Link>
@@ -424,23 +424,23 @@ export default function Dashboard() {
                 {dashboard.leaderboard.map((entry) => (
                   <div
                     key={entry.id}
-                    className={`flex items-center justify-between rounded-[22px] border border-white/10 bg-white/5 px-5 py-4 ${
-                      entry.id === dashboard.user.id ? "border-cyan-300/35 bg-cyan-300/7" : ""
+                    className={`flex items-center justify-between rounded-[22px] border border-black/8 bg-white/78 px-5 py-4 ${
+                      entry.id === dashboard.user.id ? "border-black/16 bg-[#171719] text-[#f6f4ee]" : ""
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 text-sm font-semibold text-cyan-100">
+                      <div className={`flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-semibold ${entry.id === dashboard.user.id ? "bg-white/10 text-[var(--accent)]" : "bg-[var(--page-bg)] text-[var(--foreground)]"}`}>
                         #{entry.rank}
                       </div>
                       <div>
                         <p className="font-medium">{entry.name}</p>
-                        <p className="text-sm text-slate-300">
+                        <p className={`text-sm ${entry.id === dashboard.user.id ? "text-white/68" : "text-[var(--muted-strong)]"}`}>
                           {entry.solvedProblems} solved | {entry.level}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-slate-300">
-                      <Medal className="h-4 w-4 text-amber-200" />
+                    <div className={`flex items-center gap-3 text-sm ${entry.id === dashboard.user.id ? "text-white/82" : "text-[var(--muted-strong)]"}`}>
+                      <Medal className="h-4 w-4 text-[var(--accent-gold)]" />
                       <span>{entry.points} pts</span>
                     </div>
                   </div>

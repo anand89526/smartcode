@@ -73,6 +73,12 @@ const userSchema = new mongoose.Schema({
       ref: "Problem"
     }
   ],
+  favoriteProblemIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Problem"
+    }
+  ],
   lastSolvedAt: {
     type: Date,
     default: null

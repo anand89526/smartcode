@@ -4,9 +4,11 @@ const router = express.Router()
 const Problem = require("../models/problem")
 const Submission = require("../models/Submission")
 const User = require("../models/User")
+const StudyPlan = require("../models/StudyPlan")
 const { evaluateSubmission } = require("../lib/judge")
 const { recomputeRankings } = require("../lib/rankings")
 const { serializeUser } = require("../lib/serializers")
+const { buildCoachReply } = require("../lib/coach")
 
 function getDifficultyOrder(difficulty) {
   if (difficulty === "Easy") {
@@ -77,15 +79,87 @@ router.post("/add", async (req, res) => {
   }
 })
 
+router.get("/study-plans", async (req, res) => {
+  try {
+    const plans = await StudyPlan.find().populate("problems", "title difficulty slug points tags")
+    res.json({ studyPlans: plans })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+router.post("/:id/favorite", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const problemId = req.params.id;
+    const favIndex = user.favoriteProblemIds.findIndex(id => id.toString() === problemId);
+    
+    let isFavorite = false;
+    if (favIndex === -1) {
+      user.favoriteProblemIds.push(problemId);
+      isFavorite = true;
+    } else {
+      user.favoriteProblemIds.splice(favIndex, 1);
+    }
+    
+    await user.save();
+    res.json({ message: "Favorite toggled", isFavorite });
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 router.get("/", async (req, res) => {
   try {
     const problems = await Problem.find().sort({ createdAt: 1 })
     const userId = req.query.userId
     let solvedProblemIds = new Set()
+    let favoriteProblemIds = new Set()
+    let activityCalendar = []
+    let weeklyStreak = Array(7).fill(false)
 
     if (userId) {
-      const user = await User.findById(userId).select("solvedProblemIds")
+      const user = await User.findById(userId).select("solvedProblemIds favoriteProblemIds")
       solvedProblemIds = new Set((user?.solvedProblemIds || []).map((id) => id.toString()))
+      favoriteProblemIds = new Set((user?.favoriteProblemIds || []).map((id) => id.toString()))
+
+      const now = new Date()
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)
+
+      const monthSubmissions = await Submission.find({
+        userId,
+        status: "accepted",
+        createdAt: { $gte: startOfMonth, $lte: endOfMonth }
+      }).select("createdAt")
+
+      const activeDays = new Set(monthSubmissions.map(s => s.createdAt.getDate()))
+      activityCalendar = Array.from(activeDays)
+
+      // Calculate weekly streak for current week (Mon = index 0, Sun = index 6)
+      // JS getDay(): Sun = 0, Mon = 1, ..., Sat = 6
+      const currentDayOfWeek = now.getDay()
+      const diffToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek
+      const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday)
+      startOfWeek.setHours(0, 0, 0, 0)
+      const endOfWeek = new Date(startOfWeek)
+      endOfWeek.setDate(endOfWeek.getDate() + 6)
+      endOfWeek.setHours(23, 59, 59, 999)
+
+      const weekSubmissions = await Submission.find({
+        userId,
+        status: "accepted",
+        createdAt: { $gte: startOfWeek, $lte: endOfWeek }
+      }).select("createdAt")
+
+      weekSubmissions.forEach(s => {
+        let dayIdx = s.createdAt.getDay() - 1
+        if (dayIdx === -1) dayIdx = 6 // Sunday is 6
+        weeklyStreak[dayIdx] = true
+      })
     }
 
     const submissionCounts = await Submission.aggregate([
@@ -124,7 +198,8 @@ router.get("/", async (req, res) => {
           examples: problem.examples,
           totalSubmissions,
           acceptanceRate: totalSubmissions > 0 ? Math.round((accepted / totalSubmissions) * 100) : problem.acceptanceRate,
-          solved: solvedProblemIds.has(problem._id.toString())
+          solved: solvedProblemIds.has(problem._id.toString()),
+          isFavorite: favoriteProblemIds.has(problem._id.toString())
         }
       })
 
@@ -144,11 +219,35 @@ router.get("/", async (req, res) => {
       .sort((a, b) => getDailyWeight(b, daySeed) - getDailyWeight(a, daySeed))
       .slice(0, 10)
 
+    const tagsMap = {}
+    const companiesMap = {}
+    problems.forEach(p => {
+      ;(p.tags || []).forEach(t => {
+        tagsMap[t] = (tagsMap[t] || 0) + 1
+      })
+      ;(p.companies || []).forEach(c => {
+        companiesMap[c] = (companiesMap[c] || 0) + 1
+      })
+    })
+
+    const topicTags = Object.entries(tagsMap)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+
+    const trendingCompanies = Object.entries(companiesMap)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6)
+
     res.json({
       topTen,
       trendingToday,
       problems: orderedLibrary,
-      totalCount: orderedLibrary.length
+      totalCount: orderedLibrary.length,
+      topicTags,
+      companies: trendingCompanies,
+      activityCalendar,
+      weeklyStreak
     })
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -205,6 +304,32 @@ router.post("/:id/run", async (req, res) => {
 
     const result = await evaluateSubmission(problem, code, language)
     res.json({ result })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+router.post("/:id/coach", async (req, res) => {
+  try {
+    const { messages = [] } = req.body
+    const problem = await Problem.findById(req.params.id)
+
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" })
+    }
+
+    const safeMessages = Array.isArray(messages)
+      ? messages
+          .filter((entry) => entry && typeof entry.content === "string")
+          .slice(-10)
+      : []
+
+    const reply = await buildCoachReply(problem, safeMessages)
+
+    res.json({
+      reply: reply.message,
+      mode: reply.mode
+    })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

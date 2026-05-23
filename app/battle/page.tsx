@@ -204,37 +204,37 @@ export default function Battle() {
       subtitle="Queue into a live one-v-one challenge, watch online traffic, and win bonus prize points that are stored in MongoDB."
     >
       {loading ? (
-        <div className="glass-card rounded-[30px] p-8 text-slate-300">Loading battle arena...</div>
+        <div className="glass-card rounded-[30px] p-8 text-[var(--muted-strong)]">Loading battle arena...</div>
       ) : (
         <div className="space-y-6">
           <div className="grid gap-4 md:grid-cols-4">
             <div className="glass-card rounded-[28px] p-5">
-              <div className="flex items-center gap-2 text-cyan-100">
+              <div className="flex items-center gap-2 text-[var(--foreground)]">
                 <Users className="h-4 w-4" />
                 <p className="text-sm">Users online</p>
               </div>
-              <p className="mt-3 text-3xl font-semibold text-white">{stats.onlineUsers}</p>
+              <p className="mt-3 text-3xl font-semibold">{stats.onlineUsers}</p>
             </div>
             <div className="glass-card rounded-[28px] p-5">
-              <div className="flex items-center gap-2 text-cyan-100">
+              <div className="flex items-center gap-2 text-[var(--foreground)]">
                 <Swords className="h-4 w-4" />
                 <p className="text-sm">Active battles</p>
               </div>
-              <p className="mt-3 text-3xl font-semibold text-white">{stats.activeBattles}</p>
+              <p className="mt-3 text-3xl font-semibold">{stats.activeBattles}</p>
             </div>
             <div className="glass-card rounded-[28px] p-5">
-              <div className="flex items-center gap-2 text-cyan-100">
+              <div className="flex items-center gap-2 text-[var(--foreground)]">
                 <LoaderCircle className="h-4 w-4" />
                 <p className="text-sm">Queue</p>
               </div>
-              <p className="mt-3 text-3xl font-semibold text-white">{stats.queueUsers}</p>
+              <p className="mt-3 text-3xl font-semibold">{stats.queueUsers}</p>
             </div>
             <div className="glass-card rounded-[28px] p-5">
-              <div className="flex items-center gap-2 text-cyan-100">
+              <div className="flex items-center gap-2 text-[var(--foreground)]">
                 <Trophy className="h-4 w-4" />
                 <p className="text-sm">Battle wins</p>
               </div>
-              <p className="mt-3 text-3xl font-semibold text-white">{user?.battleWins ?? 0}</p>
+              <p className="mt-3 text-3xl font-semibold">{user?.battleWins ?? 0}</p>
             </div>
           </div>
 
@@ -243,45 +243,45 @@ export default function Battle() {
               <motion.div
                 animate={{ y: [0, -12, 0] }}
                 transition={{ repeat: Number.POSITIVE_INFINITY, duration: 3.4 }}
-                className="mb-6 rounded-full border border-amber-300/20 bg-amber-300/10 px-4 py-2 text-sm text-amber-100"
+                className="mb-6 rounded-full border border-black/10 bg-white/76 px-4 py-2 text-sm text-[var(--foreground)]"
               >
                 Live challenge queue
               </motion.div>
-              <h2 className="text-4xl font-semibold">Enter a real coding duel</h2>
-              <p className="mt-4 max-w-2xl text-slate-300">
+              <h2 className="font-mono text-4xl font-semibold tracking-[-0.04em]">Enter a real coding duel</h2>
+              <p className="mt-4 max-w-2xl text-[var(--muted-strong)]">
                 Match into a backend-tracked battle. The winner gets prize points, battle wins, and rank movement saved in MongoDB.
               </p>
               <button
                 type="button"
                 onClick={handleJoinQueue}
                 disabled={joining}
-                className="mt-8 rounded-full bg-[linear-gradient(135deg,#ffb84d,#ff7e5f)] px-7 py-3 font-semibold text-slate-950 transition hover:scale-[1.02] disabled:opacity-70"
+                className="mt-8 rounded-full bg-[#111214] px-7 py-3 font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md disabled:opacity-70"
               >
                 {joining ? "Joining queue..." : "Join Battle Queue"}
               </button>
-              <p className="mt-5 max-w-xl text-sm text-slate-400">{message}</p>
+              <p className="mt-5 max-w-xl text-sm text-[var(--muted)]">{message}</p>
             </div>
           ) : battle.status === "pending" ? (
             <div className="glass-card rounded-[34px] p-8 text-center">
-              <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100">
+              <p className="inline-flex rounded-full border border-black/10 bg-white/74 px-4 py-2 text-sm text-[var(--foreground)]">
                 Waiting room
               </p>
-              <h2 className="mt-5 text-3xl font-semibold">You are in the queue</h2>
-              <p className="mt-4 text-slate-300">
+              <h2 className="mt-5 font-mono text-3xl font-semibold tracking-[-0.04em]">You are in the queue</h2>
+              <p className="mt-4 text-[var(--muted-strong)]">
                 We are waiting for another online user to accept the one-v-one battle. Keep this page open and we will auto-refresh the match state.
               </p>
               <div className="mt-8 grid gap-4 md:grid-cols-3">
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Battle prize</p>
-                  <p className="mt-2 text-3xl font-semibold text-white">{battle.prizePoints}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm text-[var(--muted)]">Battle prize</p>
+                  <p className="mt-2 text-3xl font-semibold">{battle.prizePoints}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Queue users</p>
-                  <p className="mt-2 text-3xl font-semibold text-white">{stats.queueUsers}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm text-[var(--muted)]">Queue users</p>
+                  <p className="mt-2 text-3xl font-semibold">{stats.queueUsers}</p>
                 </div>
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-slate-400">Users online</p>
-                  <p className="mt-2 text-3xl font-semibold text-white">{stats.onlineUsers}</p>
+                <div className="rounded-[24px] border border-black/8 bg-white/78 p-5">
+                  <p className="text-sm text-[var(--muted)]">Users online</p>
+                  <p className="mt-2 text-3xl font-semibold">{stats.onlineUsers}</p>
                 </div>
               </div>
             </div>
@@ -289,38 +289,38 @@ export default function Battle() {
             <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
               <section className="space-y-6">
                 <div className="glass-card rounded-[30px] p-6">
-                  <div className="rounded-[26px] border border-white/10 bg-slate-950/50 p-5">
+                  <div className="rounded-[26px] border border-black/8 bg-white/70 p-5">
                     <div className="flex items-center justify-between gap-4">
                       <div>
-                        <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Opponent</p>
+                        <p className="text-sm uppercase tracking-[0.24em] text-[var(--muted)]">Opponent</p>
                         <h2 className="mt-2 text-2xl font-semibold">{opponent?.name || "Matched player"}</h2>
-                        <p className="mt-2 text-sm text-slate-300">
+                        <p className="mt-2 text-sm text-[var(--muted-strong)]">
                           Rank #{opponent?.rank || "-"} | {opponent?.points || 0} pts
                         </p>
                       </div>
-                      <div className="rounded-full bg-rose-400/10 px-4 py-2 text-sm text-rose-100">
+                      <div className="rounded-full bg-[#171719] px-4 py-2 text-sm text-[#f6f4ee]">
                         Prize +{battle.prizePoints}
                       </div>
                     </div>
 
                     <div className="mt-8">
                       <div className="flex flex-wrap items-center gap-3">
-                        <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Battle problem</p>
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-cyan-100">
+                        <p className="text-sm uppercase tracking-[0.24em] text-[var(--muted)]">Battle problem</p>
+                        <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-xs text-[var(--foreground)]">
                           {battle.problemId.difficulty}
                         </span>
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-amber-100">
+                        <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-xs text-[var(--foreground)]">
                           {battle.problemId.points} base pts
                         </span>
                       </div>
                       <h3 className="mt-3 text-2xl font-semibold">{battle.problemId.title}</h3>
-                      <p className="mt-4 text-slate-300">{battle.problemId.description}</p>
+                      <p className="mt-4 text-[var(--muted-strong)]">{battle.problemId.description}</p>
 
                       <div className="mt-5 flex flex-wrap gap-2">
                         {battle.problemId.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
+                            className="rounded-full border border-black/8 bg-[var(--page-bg)] px-3 py-1 text-xs text-[var(--muted-strong)]"
                           >
                             {tag}
                           </span>
@@ -328,19 +328,19 @@ export default function Battle() {
                       </div>
 
                       {battle.problemId.examples.slice(0, 2).map((example, index) => (
-                        <div key={`${example.input}-${index}`} className="mt-5 rounded-[20px] border border-white/10 bg-white/5 p-4">
-                          <p className="text-sm text-cyan-100">Example {index + 1}</p>
-                          <pre className="mt-3 whitespace-pre-wrap text-sm text-slate-200">{`Input: ${example.input}
+                        <div key={`${example.input}-${index}`} className="mt-5 rounded-[20px] border border-black/8 bg-[var(--page-bg)] p-4">
+                          <p className="text-sm text-[var(--foreground)]">Example {index + 1}</p>
+                          <pre className="mt-3 whitespace-pre-wrap text-sm text-[var(--muted-strong)]">{`Input: ${example.input}
 Output: ${example.output}`}</pre>
                         </div>
                       ))}
 
-                      <div className="mt-5 rounded-[20px] border border-white/10 bg-white/5 p-4">
-                        <div className="flex items-center gap-2 text-cyan-100">
+                      <div className="mt-5 rounded-[20px] border border-black/8 bg-[var(--page-bg)] p-4">
+                        <div className="flex items-center gap-2 text-[var(--foreground)]">
                           <Zap className="h-4 w-4" />
                           <p className="text-sm">Pseudocode</p>
                         </div>
-                        <pre className="mt-3 whitespace-pre-wrap text-sm text-slate-200">{battle.problemId.pseudocode}</pre>
+                        <pre className="mt-3 whitespace-pre-wrap text-sm text-[var(--muted-strong)]">{battle.problemId.pseudocode}</pre>
                       </div>
                     </div>
                   </div>
@@ -351,8 +351,8 @@ Output: ${example.output}`}</pre>
                 <div className="glass-card rounded-[30px] p-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Battle compiler</p>
-                      <h3 className="mt-2 text-2xl font-semibold text-white">Send your solution</h3>
+                      <p className="text-sm uppercase tracking-[0.24em] text-[var(--muted)]">Battle compiler</p>
+                      <h3 className="mt-2 text-2xl font-semibold">Send your solution</h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {supportedLanguages.map((language) => (
@@ -360,10 +360,10 @@ Output: ${example.output}`}</pre>
                           key={language.id}
                           type="button"
                           onClick={() => setSelectedLanguage(language.id)}
-                          className={`rounded-full px-4 py-2 text-sm transition ${
+                          className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                             selectedLanguage === language.id
-                              ? "bg-[linear-gradient(135deg,#62ffb6,#3dd2ff)] text-slate-950"
-                              : "border border-white/10 bg-white/5 text-slate-200 hover:bg-white/10"
+                              ? "bg-[#111214] text-[#f6f4ee] shadow-sm"
+                              : "border border-black/12 bg-white/90 text-[var(--muted-strong)] hover:bg-white hover:shadow-sm"
                           }`}
                         >
                           {language.label}
@@ -381,7 +381,7 @@ Output: ${example.output}`}</pre>
                       type="button"
                       onClick={handleBattleSubmit}
                       disabled={submitting}
-                      className="rounded-2xl bg-cyan-400 px-5 py-2.5 font-medium text-slate-950 transition hover:brightness-110 disabled:opacity-70"
+                      className="rounded-2xl bg-[#111214] px-5 py-2.5 font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md disabled:opacity-70"
                     >
                       {submitting ? "Submitting..." : "Submit Battle Solution"}
                     </button>
@@ -393,7 +393,7 @@ Output: ${example.output}`}</pre>
                           [selectedLanguage]: battle.problemId.starterCode[selectedLanguage] || "",
                         }))
                       }
-                      className="rounded-2xl border border-white/10 bg-white/5 px-5 py-2.5 text-white transition hover:bg-white/10"
+                      className="rounded-2xl border border-black/12 bg-white/90 px-5 py-2.5 font-medium text-[var(--foreground)] shadow-sm transition hover:bg-white hover:shadow-md"
                     >
                       Reset Template
                     </button>
@@ -401,11 +401,11 @@ Output: ${example.output}`}</pre>
                 </div>
 
                 <div className="glass-card rounded-[28px] p-5">
-                  <div className="flex items-center gap-2 text-cyan-100">
+                  <div className="flex items-center gap-2 text-[var(--foreground)]">
                     <Crown className="h-4 w-4" />
                     <p className="text-sm">Battle status</p>
                   </div>
-                  <pre className="mt-4 whitespace-pre-wrap rounded-[20px] border border-white/10 bg-slate-950/55 p-4 text-sm text-slate-200">
+                  <pre className="mt-4 whitespace-pre-wrap rounded-[20px] border border-black/8 bg-[var(--page-bg)] p-4 text-sm text-[var(--muted-strong)]">
                     {message}
                   </pre>
                 </div>

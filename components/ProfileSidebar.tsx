@@ -85,8 +85,8 @@ export default function ProfileSidebar({
               .slice(0, 2) || "SC"}
           </div>
           <div className="flex-1">
-            <p className="text-lg font-semibold leading-tight">{user?.name || "User"}</p>
-            <p className="text-sm text-slate-400">{user?.level || "Rising Coder"}</p>
+            <p className="text-lg font-semibold leading-tight text-[var(--foreground)]">{user?.name || "User"}</p>
+            <p className="text-sm text-[var(--muted-strong)] font-medium">{user?.level || "Rising Coder"}</p>
             <p className="mt-1 text-xs text-slate-500">{user?.email}</p>
           </div>
         </motion.div>
@@ -116,11 +116,11 @@ export default function ProfileSidebar({
                 className="rounded-lg bg-slate-800/50 border border-white/5 p-3 hover:border-white/10 transition"
               >
                 <div className="flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-cyan-300" />
-                  <p className="text-xs text-slate-400">{stat.label}</p>
+                  <Icon className="h-4 w-4 text-[var(--neon-cyan)]" />
+                  <p className="text-xs text-slate-300">{stat.label}</p>
                 </div>
-                <p className="mt-2 text-xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-emerald-300 font-medium">{stat.change}</p>
+                <p className="mt-2 text-lg font-bold text-white">{stat.value}</p>
+                <p className="text-xs text-[var(--neon-cyan)] font-medium">{stat.change}</p>
               </motion.div>
             );
           })}

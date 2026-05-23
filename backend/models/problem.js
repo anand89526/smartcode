@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
+
 const mongoose = require("mongoose")
 
 const problemSchema = new mongoose.Schema({
@@ -21,6 +21,10 @@ const problemSchema = new mongoose.Schema({
     required: true
   },
   tags: {
+    type: [String],
+    default: []
+  },
+  companies: {
     type: [String],
     default: []
   },

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProtectedShell from "@/components/ProtectedShell";
 import ProfileSettings from "@/components/ProfileSettings";
 import { getUserSession, type SessionUser } from "@/lib/session";
 
-export default function SettingsPage() {
+function SettingsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [user, setUser] = useState<SessionUser | null>(() => getUserSession());
@@ -39,5 +39,19 @@ export default function SettingsPage() {
         onUserUpdated={setUser}
       />
     </ProtectedShell>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[var(--page-bg)] text-[var(--foreground)]">
+          Loading settings...
+        </div>
+      }
+    >
+      <SettingsPageContent />
+    </Suspense>
   );
 }
