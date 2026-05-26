@@ -702,17 +702,17 @@ function SolvePageContent() {
               <div className="flex flex-col gap-4 border-b border-white/8 px-4 py-4 sm:px-5">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-slate-200">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-slate-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
                       <Code2 className="h-4 w-4 text-cyan-300" />
                       Workspace
                     </span>
-                      <span className="type-line inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-4 py-2 pr-6 text-xs uppercase tracking-[0.26em] text-[var(--foreground)]">
+                      <span className="type-line inline-flex items-center gap-2 rounded-full border border-black/8 surface-accent px-3.5 py-2 pr-5 text-[10px] font-medium uppercase tracking-[0.34em] text-[var(--muted-strong)]">
                       Programmer mode live
                     </span>
                     <select
                       value={selectedLanguage}
                       onChange={(event) => setSelectedLanguage(event.target.value)}
-                      className="rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm text-[var(--foreground)] outline-none"
+                      className="control-chip rounded-full border border-black/10 bg-white/80 px-4 py-2 text-[13px] font-medium text-[var(--foreground)] outline-none"
                     >
                       {problem.supportedLanguages.map((language) => (
                         <option key={language} value={language} className="bg-slate-950">
@@ -723,7 +723,7 @@ function SolvePageContent() {
                     <button
                       type="button"
                       onClick={() => setWordWrap((current) => (current === "off" ? "on" : "off"))}
-                      className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]"
+                      className="control-chip inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-4 py-2 text-[13px] font-medium text-[var(--muted-strong)] hover:text-[var(--foreground)]"
                     >
                       <WrapText className="h-4 w-4" />
                       Wrap {wordWrap === "off" ? "Off" : "On"}
@@ -731,14 +731,14 @@ function SolvePageContent() {
                     <button
                       type="button"
                       onClick={() => setFontSize((current) => Math.min(current + 1, 20))}
-                      className="rounded-full border border-black/10 bg-white/80 px-3 py-2 text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]"
+                      className="control-chip rounded-full border border-black/10 bg-white/80 px-3 py-2 text-[13px] font-semibold text-[var(--muted-strong)] hover:text-[var(--foreground)]"
                     >
                       A+
                     </button>
                     <button
                       type="button"
                       onClick={() => setFontSize((current) => Math.max(current - 1, 12))}
-                      className="rounded-full border border-black/10 bg-white/80 px-3 py-2 text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]"
+                      className="control-chip rounded-full border border-black/10 bg-white/80 px-3 py-2 text-[13px] font-semibold text-[var(--muted-strong)] hover:text-[var(--foreground)]"
                     >
                       A-
                     </button>
@@ -757,9 +757,9 @@ function SolvePageContent() {
                           resetInterviewMode();
                         }
                       }}
-                      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
+                      className={`control-chip inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium ${
                         interviewMode
-                          ? "border border-black/10 bg-[#111214] text-[#f6f4ee] shadow-sm"
+                          ? "border border-emerald-300/20 bg-[linear-gradient(135deg,#153726,#1e5b41)] text-[#f6f4ee]"
                           : "border border-black/10 bg-white/80 text-[var(--muted-strong)]"
                       }`}
                     >
@@ -770,7 +770,7 @@ function SolvePageContent() {
                       <button
                         type="button"
                         onClick={resetInterviewMode}
-                        className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]"
+                        className="control-chip inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-4 py-2 text-[13px] font-medium text-[var(--muted-strong)] hover:text-[var(--foreground)]"
                       >
                         <TimerReset className="h-4 w-4" />
                         Reset timer
@@ -780,24 +780,24 @@ function SolvePageContent() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-black/8 bg-white/80 p-4 soft-float">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Session</p>
-                    <p className="mt-2 text-base font-semibold text-[var(--foreground)]">
+                  <div className="rounded-2xl border border-black/8 surface-accent p-4 soft-float shadow-[0_16px_40px_rgba(17,18,20,0.08)]">
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--muted)]">Session</p>
+                    <p className="mt-2 text-[15px] font-semibold text-[var(--foreground)]">
                       {interviewMode
                         ? `${Math.floor(elapsedSeconds / 60).toString().padStart(2, "0")}:${(elapsedSeconds % 60).toString().padStart(2, "0")}`
                         : "Open practice"}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-black/8 bg-white/80 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Status</p>
-                    <p className="mt-2 flex items-center gap-3 text-base font-semibold text-[var(--foreground)]">
+                  <div className="rounded-2xl border border-black/8 surface-accent p-4 shadow-[0_16px_40px_rgba(17,18,20,0.08)]">
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--muted)]">Status</p>
+                    <p className="mt-2 flex items-center gap-3 text-[15px] font-semibold text-[var(--foreground)]">
                       <span className="status-beacon inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
                       {saved ? "Auto-saved" : "Saving..."}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-black/8 bg-white/80 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Goal</p>
-                    <p className="mt-2 text-base font-semibold text-[var(--foreground)]">Hints, not answers</p>
+                  <div className="rounded-2xl border border-black/8 surface-accent p-4 shadow-[0_16px_40px_rgba(17,18,20,0.08)]">
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--muted)]">Goal</p>
+                    <p className="mt-2 text-[15px] font-semibold text-[var(--foreground)]">Hints, not answers</p>
                   </div>
                 </div>
               </div>

@@ -85,6 +85,62 @@ The frontend runs on:
 http://localhost:3000
 ```
 
+## Environment Variables
+
+Frontend root `.env.local`:
+
+```text
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+```
+
+Backend `backend/.env`:
+
+```text
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/smartcode
+CORS_ORIGIN=http://localhost:3000
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+## Deployment
+
+The simplest production setup for this project is:
+
+- Frontend on Vercel
+- Backend on Render or Railway
+- Database on MongoDB Atlas
+
+### 1. Deploy MongoDB
+
+Create a free MongoDB Atlas cluster and copy the connection string.
+
+### 2. Deploy the backend
+
+Create a new Web Service from the `backend` folder.
+
+- Build command: `npm install`
+- Start command: `npm start`
+- Required environment variables:
+  - `PORT=5000`
+  - `MONGODB_URI=<your atlas connection string>`
+  - `CORS_ORIGIN=<your frontend url>`
+  - `OPENAI_API_KEY=<optional>`
+  - `OPENAI_MODEL=gpt-4.1-mini`
+
+After deployment, copy the backend public URL.
+
+### 3. Deploy the frontend
+
+Import the root project into Vercel.
+
+- Framework: Next.js
+- Root directory: project root
+- Required environment variable:
+  - `NEXT_PUBLIC_API_BASE_URL=<your backend public url>`
+
+After deployment, Vercel gives you the public frontend URL that users can open directly.
+
 ## Available Frontend Routes
 
 - `/` - landing page

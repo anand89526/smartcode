@@ -212,7 +212,7 @@ export default function Dashboard() {
                   <h2 className="mt-3 text-2xl font-semibold">{dashboard.user.level}</h2>
                   <p className="mt-2 text-sm text-[var(--muted-strong)]">{dashboard.user.bio}</p>
                 </div>
-                <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-[#171719] text-xl font-bold text-[var(--accent)]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-emerald-200/60 bg-[linear-gradient(135deg,rgba(121,242,221,0.22),rgba(255,255,255,0.92))] text-xl font-bold text-[#174b3c] shadow-[0_16px_36px_rgba(60,224,194,0.12)]">
                   {dashboard.user.name.slice(0, 1).toUpperCase()}
                 </div>
               </div>
@@ -237,13 +237,13 @@ export default function Dashboard() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/solve"
-                  className="rounded-full bg-[#111214] px-5 py-2.5 text-sm font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md"
+                  className="dashboard-cta rounded-full px-5 py-2.5 text-sm font-semibold transition hover:-translate-y-0.5"
                 >
                   Start solving
                 </Link>
                 <Link
                   href="/leaderboard"
-                  className="rounded-full border border-black/12 bg-white/90 px-5 py-2.5 text-sm font-medium text-[var(--foreground)] shadow-sm transition hover:bg-white hover:shadow-md"
+                  className="dashboard-pill rounded-full border border-black/12 px-5 py-2.5 text-sm font-medium text-[var(--foreground)] transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   View leaderboard
                 </Link>
@@ -424,22 +424,22 @@ export default function Dashboard() {
                 {dashboard.leaderboard.map((entry) => (
                   <div
                     key={entry.id}
-                    className={`flex items-center justify-between rounded-[22px] border border-black/8 bg-white/78 px-5 py-4 ${
-                      entry.id === dashboard.user.id ? "border-black/16 bg-[#171719] text-[#f6f4ee]" : ""
+                    className={`flex items-center justify-between rounded-[22px] border border-black/8 bg-white/78 px-5 py-4 transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(17,18,20,0.08)] ${
+                      entry.id === dashboard.user.id ? "leader-highlight text-[var(--foreground)]" : ""
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-semibold ${entry.id === dashboard.user.id ? "bg-white/10 text-[var(--accent)]" : "bg-[var(--page-bg)] text-[var(--foreground)]"}`}>
+                      <div className={`flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-semibold ${entry.id === dashboard.user.id ? "bg-[linear-gradient(180deg,rgba(121,242,221,0.24),rgba(241,212,156,0.26))] text-[#174b3c]" : "bg-[var(--page-bg)] text-[var(--foreground)]"}`}>
                         #{entry.rank}
                       </div>
                       <div>
-                        <p className="font-medium">{entry.name}</p>
-                        <p className={`text-sm ${entry.id === dashboard.user.id ? "text-white/68" : "text-[var(--muted-strong)]"}`}>
+                        <p className={`font-medium ${entry.id === dashboard.user.id ? "leader-highlight-name" : ""}`}>{entry.name}</p>
+                        <p className={`text-sm ${entry.id === dashboard.user.id ? "leader-highlight-sub" : "text-[var(--muted-strong)]"}`}>
                           {entry.solvedProblems} solved | {entry.level}
                         </p>
                       </div>
                     </div>
-                    <div className={`flex items-center gap-3 text-sm ${entry.id === dashboard.user.id ? "text-white/82" : "text-[var(--muted-strong)]"}`}>
+                    <div className={`flex items-center gap-3 text-sm ${entry.id === dashboard.user.id ? "leader-highlight-sub" : "text-[var(--muted-strong)]"}`}>
                       <Medal className="h-4 w-4 text-[var(--accent-gold)]" />
                       <span>{entry.points} pts</span>
                     </div>
