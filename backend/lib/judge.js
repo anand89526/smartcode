@@ -4,7 +4,7 @@ const os = require("node:os")
 const path = require("node:path")
 const vm = require("node:vm")
 const { execFile } = require("node:child_process")
-const typescript = require("../../node_modules/typescript")
+const typescript = require("typescript")
 
 function normalizeValue(value) {
   return JSON.parse(JSON.stringify(value))
