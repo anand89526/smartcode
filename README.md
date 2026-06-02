@@ -105,41 +105,77 @@ OPENAI_MODEL=gpt-4.1-mini
 
 ## Deployment
 
-The simplest production setup for this project is:
+The fastest production setup for this project is:
 
 - Frontend on Vercel
-- Backend on Render or Railway
+- Backend on Render
 - Database on MongoDB Atlas
 
-### 1. Deploy MongoDB
+### 1. Deploy MongoDB Atlas
 
-Create a free MongoDB Atlas cluster and copy the connection string.
+Create a cluster, add a database user, and allow access from Render and Vercel. Copy the connection string into the backend `MONGODB_URI`.
 
-### 2. Deploy the backend
+### 2. Deploy the backend on Render
 
-Create a new Web Service from the `backend` folder.
+Create a new Web Service and point it to the `backend` folder.
 
-- Build command: `npm install`
-- Start command: `npm start`
-- Required environment variables:
-  - `PORT=5000`
-  - `MONGODB_URI=<your atlas connection string>`
-  - `CORS_ORIGIN=<your frontend url>`
-  - `OPENAI_API_KEY=<optional>`
-  - `OPENAI_MODEL=gpt-4.1-mini`
+- Root Directory: `backend`
+- Build Command: `npm install`
+- Start Command: `npm start`
 
-After deployment, copy the backend public URL.
+Set these environment variables in Render:
 
-### 3. Deploy the frontend
+- `MONGODB_URI=<your atlas connection string>`
+- `CORS_ORIGIN=<your frontend production url>`
+- `OPENAI_MODEL=gpt-4.1-mini`
+- `OPENAI_API_KEY=<optional, only needed for the AI coach>`
 
-Import the root project into Vercel.
+Notes:
 
-- Framework: Next.js
-- Root directory: project root
-- Required environment variable:
-  - `NEXT_PUBLIC_API_BASE_URL=<your backend public url>`
+- Do not hardcode `PORT` on Render unless you specifically need to. Render provides the runtime port automatically.
+- If you still test locally, you can temporarily set `CORS_ORIGIN=http://localhost:3000,https://your-frontend-domain.vercel.app`. For production-only use, keep only the live frontend domain.
 
-After deployment, Vercel gives you the public frontend URL that users can open directly.
+### 3. Deploy the frontend on Vercel
+
+Import the repository root into Vercel.
+
+- Framework Preset: `Next.js`
+- Root Directory: project root
+- Build Command: `npm run build`
+
+Set this environment variable in Vercel:
+
+- `NEXT_PUBLIC_API_BASE_URL=<your Render backend url>`
+
+Example:
+
+```text
+NEXT_PUBLIC_API_BASE_URL=https://smartcode-backend.onrender.com
+```
+
+After Vercel deploys, copy the frontend public URL and update the backend `CORS_ORIGIN` in Render to match it exactly.
+
+### 4. Production wiring order
+
+Use this order to avoid broken requests during launch:
+
+1. Deploy backend to Render
+2. Copy the Render backend URL
+3. Deploy frontend to Vercel with `NEXT_PUBLIC_API_BASE_URL` set to that backend URL
+4. Copy the Vercel frontend URL
+5. Update `CORS_ORIGIN` in Render to that frontend URL
+6. Redeploy backend once more if Render asks for it
+
+### 5. Optional OpenAI coach setup
+
+If you want the in-problem coach feature to use OpenAI instead of the local fallback:
+
+1. Go to `https://platform.openai.com/`
+2. Create an API key from the API keys page
+3. Add billing if your account requires it
+4. Paste the key into Render as `OPENAI_API_KEY`
+
+If `OPENAI_API_KEY` is empty, the app still works and uses the built-in fallback coach response instead of calling OpenAI.
 
 ## Available Frontend Routes
 

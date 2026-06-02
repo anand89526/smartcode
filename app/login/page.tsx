@@ -44,9 +44,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error(error);
-      setMessage(
-        "Login request failed. Make sure the backend and MongoDB are running on localhost:5000."
-      );
+      setMessage("Login request failed. Please try again in a moment.");
     } finally {
       setLoading(false);
     }

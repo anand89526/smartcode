@@ -123,7 +123,7 @@ router.post("/presence/:userId", async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.params.userId,
       { lastActiveAt: new Date() },
-      { new: true }
+      { returnDocument: "after" }
     )
 
     if (!user) {
@@ -181,7 +181,7 @@ router.put("/profile/:userId", async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(req.params.userId, allowedUpdates, {
-      new: true,
+      returnDocument: "after",
       runValidators: true
     })
 

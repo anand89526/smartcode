@@ -123,7 +123,7 @@ router.get("/state/:userId", async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.params.userId,
       { lastActiveAt: new Date() },
-      { new: true }
+      { returnDocument: "after" }
     )
 
     if (!user) {

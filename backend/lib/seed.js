@@ -1452,7 +1452,7 @@ async function seedProblems() {
       Problem.findOneAndUpdate(
         { slug: problem.slug },
         { $set: problem },
-        { upsert: true, new: true, setDefaultsOnInsert: true }
+        { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
       )
     )
   )
@@ -1483,7 +1483,7 @@ async function seedProblems() {
       StudyPlan.findOneAndUpdate(
         { slug: plan.slug },
         { $set: plan },
-        { upsert: true, new: true, setDefaultsOnInsert: true }
+        { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
       )
     )
   )
