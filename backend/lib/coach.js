@@ -124,6 +124,7 @@ function buildFallbackReply(problem, message) {
 
 async function getOpenAIReply(problem, messages) {
   const apiKey = process.env.OPENAI_API_KEY
+  const apiUrl = process.env.OPENAI_API_URL || process.env.OPENAI_BASE_URL || "https://api.openai.com/v1/responses"
 
   if (!apiKey) {
     return null
@@ -151,7 +152,7 @@ async function getOpenAIReply(problem, messages) {
   ]
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

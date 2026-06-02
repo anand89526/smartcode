@@ -1,0 +1,200 @@
+@page {
+  size: A4;
+  margin: 18mm 14mm;
+}
+
+:root {
+  --ink: #14213d;
+  --muted: #4f5d75;
+  --line: #d9e2ec;
+  --accent: #f77f00;
+  --accent-soft: #fff2e2;
+  --panel: #f8fafc;
+  --success: #1f7a5c;
+  --danger: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 20px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--line);
+}
+
+h3 {
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+p,
+ul,
+ol {
+  margin: 8px 0;
+}
+
+ul,
+ol {
+  padding-left: 18px;
+}
+
+li {
+  margin: 4px 0;
+}
+
+.cover {
+  padding: 14mm 8mm 8mm;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subtle {
+  color: var(--muted);
+}
+
+.meta-grid,
+.two-col,
+.three-col,
+.card-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.meta-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.three-col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card,
+.metric,
+.callout {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 12px 14px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.callout {
+  background: #fff8f0;
+}
+
+.ok {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.warn {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  border: 1px solid var(--line);
+  padding: 8px 9px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.table th {
+  background: #eef4f8;
+}
+
+.page-break {
+  break-before: page;
+}
+
+.small {
+  font-size: 11px;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pill {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  font-size: 11px;
+}
+
+.diagram {
+  margin: 14px 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  padding: 10px;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+}
+
+.footer-note {
+  margin-top: 18px;
+  font-size: 10.5px;
+  color: var(--muted);
+}

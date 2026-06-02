@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { apiBaseUrl } from "@/lib/api";
 import { buildUserProfile, getUserSession, saveUserSession, SessionUser } from "@/lib/session";
@@ -24,6 +24,7 @@ export default function ProtectedShell({
 }: ProtectedShellProps) {
   const router = useRouter();
   const [user, setUser] = useState<SessionUser | null>(() => getUserSession());
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!user) {
@@ -72,7 +73,7 @@ export default function ProtectedShell({
     return (
       <div className="flex min-h-screen items-center justify-center bg-[var(--page-bg)] text-[var(--foreground)]">
         <motion.div
-          animate={{ rotate: 360 }}
+          animate={reduceMotion ? undefined : { rotate: 360 }}
           transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, ease: "linear" }}
           className="h-14 w-14 rounded-full border-2 border-black/10 border-t-[var(--surface-dark)]"
         />
@@ -91,9 +92,9 @@ export default function ProtectedShell({
       <main className={`relative z-10 mx-auto w-full ${fullWidth ? 'h-full p-0' : 'max-w-7xl px-4 py-8 sm:px-6 lg:px-8'}`}>
         {showHero ? (
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-8 rounded-[32px] border border-black/8 bg-[rgba(255,255,255,0.78)] p-6 shadow-[0_28px_90px_rgba(23,23,25,0.1)] backdrop-blur-xl"
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            className="mb-6 rounded-[28px] border border-black/8 bg-[rgba(255,255,255,0.78)] p-5 shadow-[0_28px_90px_rgba(23,23,25,0.1)] backdrop-blur-xl sm:mb-8 sm:rounded-[32px] sm:p-6"
           >
             <p className="text-sm uppercase tracking-[0.3em] text-[var(--muted)]">
               Welcome back

@@ -498,7 +498,7 @@ function SolvePageContent() {
           </div>
         </section>
 
-        <div className="mb-4 flex gap-2 overflow-x-auto xl:hidden">
+        <div className="mb-4 flex gap-2 overflow-x-auto pb-1 lg:hidden">
           {[
             { id: "problem" as const, label: "Problem", icon: BookOpenText },
             { id: "editor" as const, label: "Editor", icon: Code2 },
@@ -525,8 +525,8 @@ function SolvePageContent() {
           })}
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(540px,0.95fr)]">
-          <section className={`${mobileSection !== "problem" ? "hidden xl:block" : ""}`}>
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <section className={`${mobileSection !== "problem" ? "hidden lg:block" : ""}`}>
             <div className="rounded-[30px] border border-black/8 bg-white/78 shadow-[0_24px_70px_rgba(23,23,25,0.12)] backdrop-blur-xl">
               <div className="flex flex-wrap items-center gap-2 border-b border-white/8 px-4 py-4 sm:px-5">
                 {[
@@ -691,7 +691,7 @@ function SolvePageContent() {
             </div>
           </section>
 
-          <section className={`${mobileSection !== "editor" ? "hidden xl:block" : ""}`}>
+          <section className={`${mobileSection !== "editor" ? "hidden lg:block" : ""}`}>
             <div className={`programmer-mode-shell ${interviewMode ? "ring-1 ring-rose-300/20" : ""}`}>
               <div className="programmer-mode-grid absolute inset-0" />
               <div className="programmer-mode-beam programmer-mode-beam-left" />
@@ -802,7 +802,7 @@ function SolvePageContent() {
                 </div>
               </div>
 
-              <div className="terminal-panel h-[60vh] min-h-[500px] overflow-hidden border-b border-white/8 bg-[#071120] xl:h-[68vh]">
+              <div className="terminal-panel h-[52vh] min-h-[360px] overflow-hidden border-b border-white/8 bg-[#071120] sm:min-h-[420px] lg:h-[60vh] lg:min-h-[500px] xl:h-[68vh]">
                 <CodeEditor
                   code={code}
                   language={selectedLanguage}
@@ -905,7 +905,7 @@ function SolvePageContent() {
             </div>
           </section>
 
-          <section className={`${mobileSection !== "notes" ? "hidden xl:block" : ""} xl:col-span-2`}>
+          <section className={`${mobileSection !== "notes" ? "hidden lg:block" : ""} lg:col-span-2`}>
             <div className="rounded-[30px] border border-white/10 bg-slate-950/75 p-4 shadow-[0_24px_70px_rgba(2,6,23,0.45)] backdrop-blur-xl sm:p-5">
               <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
                 <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5">

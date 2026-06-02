@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Bookmark,
@@ -79,6 +80,7 @@ const difficultyStyles: Record<ProblemListItem["difficulty"], string> = {
 };
 
 export default function ProblemsPage() {
+  const router = useRouter();
   const [data, setData] = useState<ProblemResponse | null>(null);
   const [studyPlans, setStudyPlans] = useState<StudyPlan[]>([]);
   const [search, setSearch] = useState("");
@@ -291,7 +293,7 @@ export default function ProblemsPage() {
                   const pool = filteredProblems.length > 0 ? filteredProblems : data?.problems || [];
                   const random = pool[Math.floor(Math.random() * pool.length)];
                   if (random) {
-                    window.location.href = `/solve?problemId=${random.id}`;
+                    router.push(`/solve?problemId=${random.id}`);
                   }
                 }}
                 className="inline-flex items-center gap-2 rounded-full border border-black/12 bg-white/90 px-4 py-2 text-sm font-medium text-[var(--foreground)] shadow-sm transition hover:bg-white hover:shadow-md"

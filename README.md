@@ -91,6 +91,7 @@ Frontend root `.env.local`:
 
 ```text
 NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 Backend `backend/.env`:
@@ -101,6 +102,7 @@ MONGODB_URI=mongodb://127.0.0.1:27017/smartcode
 CORS_ORIGIN=http://localhost:3000
 OPENAI_API_KEY=
 OPENAI_MODEL=gpt-4.1-mini
+OPENAI_API_URL=https://api.openai.com/v1/responses
 ```
 
 ## Deployment
@@ -129,6 +131,7 @@ Set these environment variables in Render:
 - `CORS_ORIGIN=<your frontend production url>`
 - `OPENAI_MODEL=gpt-4.1-mini`
 - `OPENAI_API_KEY=<optional, only needed for the AI coach>`
+- `OPENAI_API_URL=https://api.openai.com/v1/responses`
 
 Notes:
 
@@ -146,6 +149,7 @@ Import the repository root into Vercel.
 Set this environment variable in Vercel:
 
 - `NEXT_PUBLIC_API_BASE_URL=<your Render backend url>`
+- `NEXT_PUBLIC_SITE_URL=<your Vercel production url>`
 
 Example:
 
@@ -174,8 +178,65 @@ If you want the in-problem coach feature to use OpenAI instead of the local fall
 2. Create an API key from the API keys page
 3. Add billing if your account requires it
 4. Paste the key into Render as `OPENAI_API_KEY`
+5. Set `OPENAI_API_URL=https://api.openai.com/v1/responses`
 
 If `OPENAI_API_KEY` is empty, the app still works and uses the built-in fallback coach response instead of calling OpenAI.
+
+## Redeploy Commands
+
+### Frontend
+
+Local verification:
+
+```bash
+npm install
+npm run lint
+npm run build
+```
+
+Deploy to Vercel:
+
+```bash
+npm install -g vercel
+vercel login
+vercel env add NEXT_PUBLIC_API_BASE_URL production
+vercel env add NEXT_PUBLIC_SITE_URL production
+vercel --prod
+```
+
+### Backend
+
+Local verification:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+Render redeploy:
+
+```bash
+git add .
+git commit -m "Improve responsive UX, SEO, and performance"
+git push origin <your-branch>
+```
+
+Then in Render:
+
+1. Open the backend service.
+2. Go to `Environment`.
+3. Set `MONGODB_URI`, `CORS_ORIGIN`, `OPENAI_API_KEY`, `OPENAI_MODEL`, and `OPENAI_API_URL`.
+4. Click `Manual Deploy` -> `Deploy latest commit`.
+
+### MongoDB Atlas
+
+Atlas does not use deploy commands for app code. Update it through the dashboard:
+
+1. Open your cluster.
+2. Go to `Network Access` and allow your Render outbound access as needed.
+3. Go to `Database Access` and verify the app user credentials.
+4. Copy the connection string into Render as `MONGODB_URI`.
 
 ## Available Frontend Routes
 

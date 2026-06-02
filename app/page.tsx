@@ -68,12 +68,12 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[36px] border border-black/8 bg-[rgba(255,255,255,0.84)] p-12 shadow-[0_28px_90px_rgba(23,23,25,0.1)] backdrop-blur-lg"
+          className="rounded-[28px] border border-black/8 bg-[rgba(255,255,255,0.84)] p-6 shadow-[0_28px_90px_rgba(23,23,25,0.1)] backdrop-blur-lg sm:rounded-[36px] sm:p-12"
         >
-          <h2 className="mb-6 font-mono text-4xl font-bold tracking-[-0.04em] text-[var(--foreground)]">
+          <h2 className="mb-6 font-mono text-3xl font-bold tracking-[-0.04em] text-[var(--foreground)] sm:text-4xl">
             About SmartCode
           </h2>
-          <p className="mb-4 text-lg text-[var(--muted-strong)]">
+          <p className="mb-4 text-base text-[var(--muted-strong)] sm:text-lg">
             A competitive coding platform built for speed and performance. Practice problems,
             battle other coders in real-time, and climb the global rankings.
           </p>
@@ -82,7 +82,7 @@ export default function Home() {
             thousands of developers worldwide.
           </p>
 
-          <div className="mt-8 flex gap-4">
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
@@ -116,12 +116,12 @@ export default function Home() {
           <p className="mb-8 text-[var(--muted-strong)]">
             Join thousands of developers improving their coding skills.
           </p>
-          <div className="inline-flex gap-4">
+          <div className="inline-flex w-full justify-center gap-4 sm:w-auto">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => router.push("/signup")}
-              className="rounded-full bg-[#111214] px-8 py-3 font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md"
+              className="w-full rounded-full bg-[#111214] px-8 py-3 font-semibold text-[#f6f4ee] shadow-sm transition hover:bg-black hover:shadow-md sm:w-auto"
             >
               Create Account
             </motion.button>

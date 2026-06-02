@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SmartCode Owner Handbook</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="cover">
+    <div class="eyebrow">Owner Handbook</div>
+    <h1>SmartCode Production Owner Handbook</h1>
+    <p class="subtle">
+      Practical operating guide for running, debugging, and improving SmartCode in production.
+      Prepared for the current live stack on May 29, 2026.
+    </p>
+
+    <div class="meta-grid">
+      <div class="metric">
+        <strong>User-facing website</strong>
+        <div><a href="https://smartcode-three.vercel.app">https://smartcode-three.vercel.app</a></div>
+      </div>
+      <div class="metric">
+        <strong>Backend API</strong>
+        <div><a href="https://smartcode-backend.onrender.com">https://smartcode-backend.onrender.com</a></div>
+      </div>
+      <div class="metric">
+        <strong>Frontend hosting</strong>
+        <div>Vercel</div>
+      </div>
+      <div class="metric">
+        <strong>Backend hosting</strong>
+        <div>Render</div>
+      </div>
+      <div class="metric">
+        <strong>Database</strong>
+        <div>MongoDB Atlas</div>
+      </div>
+      <div class="metric">
+        <strong>Core codebase</strong>
+        <div>Next.js frontend + Express/Mongoose backend</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Important:</strong> share only the Vercel URL with users. The Render backend URL is for API traffic and operational testing, not public onboarding.
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>1. What You Are Running</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>Frontend responsibilities</h3>
+        <ul>
+          <li>Landing page and auth screens</li>
+          <li>Dashboard, problem list, battle, leaderboard, solve view</li>
+          <li>Browser-side API calls to the backend</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Backend responsibilities</h3>
+        <ul>
+          <li>User signup and login</li>
+          <li>Problem retrieval, code run, code submit</li>
+          <li>Battle state and leaderboard logic</li>
+          <li>AI coach fallback and optional OpenAI integration</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. Daily Operating Routine</h2>
+    <table class="table">
+      <tr>
+        <th>Time</th>
+        <th>Action</th>
+        <th>Expected result</th>
+      </tr>
+      <tr>
+        <td>Morning</td>
+        <td>Open the live website and test homepage, login, and one API-backed page.</td>
+        <td>No frontend errors, pages load, API responds.</td>
+      </tr>
+      <tr>
+        <td>After each deploy</td>
+        <td>Test signup/login, problem listing, run code, and submit code.</td>
+        <td>Core user flow still works end to end.</td>
+      </tr>
+      <tr>
+        <td>End of day</td>
+        <td>Review Render logs and Vercel deploy status.</td>
+        <td>No repeating crashes, build failures, or route errors.</td>
+      </tr>
+    </table>
+
+    <h2>3. Weekly Operating Routine</h2>
+    <ul>
+      <li>Check MongoDB Atlas metrics for connection spikes, slow queries, and storage growth.</li>
+      <li>Review recent user-reported bugs and classify them as frontend, backend, or data issues.</li>
+      <li>Export or snapshot important production data before any structural change.</li>
+      <li>Verify that environment variables in Render and Vercel still match the live domains.</li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h2>4. Launch-Day and Post-Deploy Checklist</h2>
+    <ol>
+      <li>Push code to GitHub.</li>
+      <li>Confirm Render backend deploy finishes successfully.</li>
+      <li>Confirm Vercel frontend deploy finishes successfully.</li>
+      <li>Open the live site and perform manual smoke tests.</li>
+      <li>Check browser console and network tab for failing API calls.</li>
+      <li>Check Render logs for startup errors, MongoDB failures, and CORS errors.</li>
+    </ol>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>Smoke tests</h3>
+        <ul>
+          <li>Homepage loads</li>
+          <li>Signup works</li>
+          <li>Login works</li>
+          <li>Problems page loads</li>
+          <li>One problem can run and submit</li>
+          <li>Leaderboard loads</li>
+          <li>Battle page loads</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Live configuration</h3>
+        <ul>
+          <li><strong>Vercel:</strong> <code>NEXT_PUBLIC_API_BASE_URL</code> must point to Render</li>
+          <li><strong>Render:</strong> <code>CORS_ORIGIN</code> must exactly match the Vercel domain</li>
+          <li><strong>Render:</strong> <code>MONGODB_URI</code> must use current Atlas credentials</li>
+          <li><strong>Optional:</strong> <code>OPENAI_API_KEY</code> only if AI coach is enabled</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>5. Where To Debug First</h2>
+    <table class="table">
+      <tr>
+        <th>Symptom</th>
+        <th>Check first</th>
+        <th>Likely cause</th>
+      </tr>
+      <tr>
+        <td>Frontend loads, but buttons fail</td>
+        <td>Browser network tab</td>
+        <td>Bad API base URL, CORS, backend route error</td>
+      </tr>
+      <tr>
+        <td>Backend route returns 500</td>
+        <td>Render logs</td>
+        <td>Unhandled server error, bad request body, DB issue</td>
+      </tr>
+      <tr>
+        <td>Signup/login broken</td>
+        <td>Render logs and MongoDB Atlas</td>
+        <td>DB auth, route logic, invalid env setup</td>
+      </tr>
+      <tr>
+        <td>Everything becomes slow</td>
+        <td>Render instance status and Atlas metrics</td>
+        <td>Cold starts, DB load, repeated heavy route execution</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>6. Incident Runbooks</h2>
+    <h3>A. Login or signup stops working</h3>
+    <ol>
+      <li>Open browser devtools and inspect the failing request.</li>
+      <li>Check HTTP status code and response payload.</li>
+      <li>Open Render logs and find the matching time window.</li>
+      <li>Verify MongoDB Atlas is reachable and credentials still work.</li>
+      <li>Verify frontend is calling the correct backend URL.</li>
+    </ol>
+
+    <h3>B. CORS error appears in the browser</h3>
+    <ol>
+      <li>Open Render environment variables.</li>
+      <li>Check <code>CORS_ORIGIN</code> exactly matches the frontend URL protocol and domain.</li>
+      <li>Remove stale domains if you want a locked production setup.</li>
+      <li>Redeploy backend if Render does not auto-apply changes.</li>
+    </ol>
+
+    <h3>C. Backend crashes on deploy</h3>
+    <ol>
+      <li>Read the top stack trace in Render logs.</li>
+      <li>Check missing dependencies, bad import paths, and env variables.</li>
+      <li>Check whether the backend root directory is still <code>backend</code>.</li>
+      <li>Rollback or redeploy the previous stable commit if needed.</li>
+    </ol>
+
+    <h3>D. Website is slow</h3>
+    <ol>
+      <li>Verify whether the delay is the first request after inactivity.</li>
+      <li>If yes, treat it as a Render cold start risk.</li>
+      <li>If not, check backend logs and Atlas metrics for sustained load or route hotspots.</li>
+      <li>Test the exact slow route directly against the backend URL.</li>
+    </ol>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Data Ownership and Safe Changes</h2>
+    <div class="three-col">
+      <div class="card">
+        <h3>What is user data</h3>
+        <ul>
+          <li>Users</li>
+          <li>Passwords</li>
+          <li>Submissions</li>
+          <li>Battle outcomes</li>
+          <li>Profile changes</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What is product data</h3>
+        <ul>
+          <li>Problems</li>
+          <li>Study plans</li>
+          <li>Tags and metadata</li>
+          <li>Seeded platform defaults</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Before changing data</h3>
+        <ul>
+          <li>Take a backup or export</li>
+          <li>Test on a safe dataset</li>
+          <li>Deploy small changes</li>
+          <li>Verify results in production</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>8. Known Production Risks To Address Next</h2>
+    <ul>
+      <li><span class="warn">Passwords are stored in plain text.</span> Move to hashed passwords with bcrypt before serious scale.</li>
+      <li><span class="warn">No automated tests.</span> Add route-level smoke tests for auth and problem submission.</li>
+      <li><span class="warn">Cold-start risk on Render.</span> Expect slower first requests on lower tiers.</li>
+      <li><span class="warn">OpenAI coach depends on env setup.</span> Missing API key is okay, but behavior should stay intentional.</li>
+      <li><span class="warn">MongoDB credentials were exposed in a screenshot earlier.</span> Rotate them immediately and update Render.</li>
+    </ul>
+
+    <h2>9. Support Tools You Will Use Most</h2>
+    <ul>
+      <li><strong>Vercel dashboard:</strong> frontend deployments, env vars, build failures</li>
+      <li><strong>Render dashboard:</strong> backend logs, deploy history, runtime env vars</li>
+      <li><strong>MongoDB Atlas:</strong> cluster health, database users, metrics, backups</li>
+      <li><strong>Browser devtools:</strong> console errors, network failures, bad API payloads</li>
+      <li><strong>GitHub:</strong> code history, rollback point, deploy source of truth</li>
+    </ul>
+
+    <p class="footer-note">
+      Recommended public website link for users: https://smartcode-three.vercel.app
+    </p>
+  </section>
+</body>
+</html>

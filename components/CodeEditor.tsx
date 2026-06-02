@@ -1,7 +1,17 @@
 "use client";
 
-import Editor, { OnMount } from "@monaco-editor/react";
+import dynamic from "next/dynamic";
 import { useRef, useCallback } from "react";
+import type { OnMount } from "@monaco-editor/react";
+
+const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full min-h-[320px] items-center justify-center bg-[#F7F4EE] text-sm text-[var(--muted)]">
+      Loading editor workspace...
+    </div>
+  ),
+});
 
 type CodeEditorProps = {
   code: string;
@@ -94,7 +104,7 @@ export default function CodeEditor({
   }, [onRun, onSubmit]);
 
   return (
-    <Editor
+    <MonacoEditor
       height={height}
       defaultLanguage={language}
       language={language}

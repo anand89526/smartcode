@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SmartCode System Design</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="cover">
+    <div class="eyebrow">System Design</div>
+    <h1>SmartCode System Design Document</h1>
+    <p class="subtle">
+      Production-oriented system design for the current SmartCode architecture, with current-state constraints and near-term scale recommendations.
+    </p>
+  </section>
+
+  <section>
+    <h2>1. System Objective</h2>
+    <p>
+      SmartCode is an online coding-practice platform that lets users sign up, log in, browse coding problems,
+      run and submit solutions, track progress, compete in battle mode, and optionally receive AI coaching.
+      The current implementation is optimized for fast launch and iterative product growth rather than heavy enterprise scale.
+    </p>
+
+    <h2>2. Current Architecture</h2>
+    <div class="diagram">
+      <svg viewBox="0 0 1000 450" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#f77f00"/>
+          </marker>
+        </defs>
+        <rect x="50" y="140" width="180" height="100" rx="20" fill="#fff2e2" stroke="#f77f00" stroke-width="2"/>
+        <text x="140" y="182" text-anchor="middle" font-size="22" font-weight="700" fill="#14213d">Users</text>
+        <text x="140" y="210" text-anchor="middle" font-size="16" fill="#4f5d75">web browsers</text>
+
+        <rect x="310" y="60" width="230" height="120" rx="20" fill="#f8fafc" stroke="#d9e2ec" stroke-width="2"/>
+        <text x="425" y="102" text-anchor="middle" font-size="22" font-weight="700" fill="#14213d">Next.js Frontend</text>
+        <text x="425" y="130" text-anchor="middle" font-size="16" fill="#4f5d75">pages, components, fetch clients</text>
+        <text x="425" y="154" text-anchor="middle" font-size="16" fill="#4f5d75">deployed on Vercel</text>
+
+        <rect x="310" y="240" width="230" height="120" rx="20" fill="#f8fafc" stroke="#d9e2ec" stroke-width="2"/>
+        <text x="425" y="282" text-anchor="middle" font-size="22" font-weight="700" fill="#14213d">Express Backend</text>
+        <text x="425" y="310" text-anchor="middle" font-size="16" fill="#4f5d75">auth, problems, battles, judge</text>
+        <text x="425" y="334" text-anchor="middle" font-size="16" fill="#4f5d75">deployed on Render</text>
+
+        <rect x="640" y="60" width="260" height="120" rx="20" fill="#eef4f8" stroke="#d9e2ec" stroke-width="2"/>
+        <text x="770" y="102" text-anchor="middle" font-size="22" font-weight="700" fill="#14213d">MongoDB Atlas</text>
+        <text x="770" y="130" text-anchor="middle" font-size="16" fill="#4f5d75">persistent product and user data</text>
+
+        <rect x="640" y="240" width="260" height="120" rx="20" fill="#eef4f8" stroke="#d9e2ec" stroke-width="2"/>
+        <text x="770" y="282" text-anchor="middle" font-size="22" font-weight="700" fill="#14213d">OpenAI API</text>
+        <text x="770" y="310" text-anchor="middle" font-size="16" fill="#4f5d75">optional AI coach integration</text>
+
+        <line x1="230" y1="190" x2="310" y2="120" stroke="#f77f00" stroke-width="4" marker-end="url(#arrow4)"/>
+        <line x1="425" y1="180" x2="425" y2="240" stroke="#f77f00" stroke-width="4" marker-end="url(#arrow4)"/>
+        <line x1="540" y1="120" x2="640" y2="120" stroke="#f77f00" stroke-width="4" marker-end="url(#arrow4)"/>
+        <line x1="540" y1="300" x2="640" y2="300" stroke="#f77f00" stroke-width="4" marker-end="url(#arrow4)"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>3. Major Functional Modules</h2>
+    <table class="table">
+      <tr>
+        <th>Module</th>
+        <th>Responsibility</th>
+        <th>Current notes</th>
+      </tr>
+      <tr>
+        <td>Auth</td>
+        <td>Signup, login, profile, password change, presence updates</td>
+        <td>Needs stronger password security for mature production</td>
+      </tr>
+      <tr>
+        <td>Problems</td>
+        <td>Problem list, metadata, run, submit, favorites, study plans</td>
+        <td>Core value path for the product</td>
+      </tr>
+      <tr>
+        <td>Judge</td>
+        <td>Evaluate JavaScript, TypeScript, and Java submissions</td>
+        <td>Critical reliability surface for coding UX</td>
+      </tr>
+      <tr>
+        <td>Battle</td>
+        <td>Queue users, match opponents, score winners, track contests</td>
+        <td>Adds real-time product flavor; worth close monitoring</td>
+      </tr>
+      <tr>
+        <td>Coach</td>
+        <td>Fallback hints or OpenAI-powered hints</td>
+        <td>Optional, should not break core usage if unavailable</td>
+      </tr>
+    </table>
+
+    <h2>4. Data Model Overview</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>Primary collections</h3>
+        <ul>
+          <li>Users</li>
+          <li>Problems</li>
+          <li>Submissions</li>
+          <li>Battles</li>
+          <li>StudyPlans</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>High-value relationships</h3>
+        <ul>
+          <li>User to submissions</li>
+          <li>User to solved/favorite problems</li>
+          <li>Battle to challenger, opponent, winner, and problem</li>
+          <li>Study plan to problem list</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>5. Scalability and Reliability Design</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Current strengths</h3>
+        <ul>
+          <li>Simple separation between frontend and backend</li>
+          <li>Managed infrastructure reduces ops burden</li>
+          <li>MongoDB Atlas is suitable for early growth</li>
+          <li>Independent frontend/backend deploys speed iteration</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Current constraints</h3>
+        <ul>
+          <li>Render cold starts can affect first-request latency</li>
+          <li>No strong auth hardening yet</li>
+          <li>No automated regression tests</li>
+          <li>Observability is mostly dashboard-log based</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Near-term improvements</h3>
+        <ul>
+          <li>Add password hashing and safer auth flows</li>
+          <li>Add backend health check and route smoke tests</li>
+          <li>Introduce structured logs with request identifiers</li>
+          <li>Cache heavy read paths if traffic grows</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Scale-up path</h3>
+        <ul>
+          <li>Move to a more consistent always-on backend tier</li>
+          <li>Add rate limiting on auth and submission endpoints</li>
+          <li>Add monitoring and alerting for crashes and latency</li>
+          <li>Split judging from general API if submission traffic spikes</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>6. Security Design Priorities</h2>
+    <ol>
+      <li>Hash passwords with bcrypt before wider public use.</li>
+      <li>Rotate exposed MongoDB credentials and keep secrets only in Render/Vercel dashboards.</li>
+      <li>Restrict CORS to exact trusted frontend domains.</li>
+      <li>Add request validation on sensitive backend routes.</li>
+      <li>Consider auth tokens or session management instead of trusting plain credential flow only.</li>
+    </ol>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Observability and Debug Strategy</h2>
+    <table class="table">
+      <tr>
+        <th>Area</th>
+        <th>Current tool</th>
+        <th>Recommended next step</th>
+      </tr>
+      <tr>
+        <td>Frontend failures</td>
+        <td>Browser console and Vercel deploy logs</td>
+        <td>Add client error reporting</td>
+      </tr>
+      <tr>
+        <td>Backend failures</td>
+        <td>Render logs</td>
+        <td>Add structured logging and route-level diagnostics</td>
+      </tr>
+      <tr>
+        <td>Database health</td>
+        <td>MongoDB Atlas metrics</td>
+        <td>Track slow queries and usage growth weekly</td>
+      </tr>
+      <tr>
+        <td>AI dependency</td>
+        <td>Backend fallback behavior</td>
+        <td>Log coach provider mode for observability</td>
+      </tr>
+    </table>
+
+    <h2>8. Recommended Production Architecture Over the Next 30 Days</h2>
+    <ul>
+      <li>Keep the current Vercel + Render + Atlas architecture for now.</li>
+      <li>Stabilize auth and add tests before adding many new features.</li>
+      <li>Introduce a clear incident playbook and backup cadence.</li>
+      <li>Improve judging isolation if competitive coding usage grows meaningfully.</li>
+      <li>Document env vars and deploy steps in one team-owned source of truth.</li>
+    </ul>
+
+    <p class="footer-note">
+      Current public website for users: https://smartcode-three.vercel.app
+    </p>
+  </section>
+</body>
+</html>

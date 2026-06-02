@@ -73,6 +73,8 @@ body {
     radial-gradient(circle at top right, rgba(246, 179, 215, 0.12), transparent 22%),
     radial-gradient(circle at bottom, rgba(23, 23, 25, 0.05), transparent 34%),
     linear-gradient(180deg, #f7f5ef 0%, #f0ece4 100%);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -1138,5 +1140,61 @@ select {
   .lc-right {
     position: static;
     height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-grid,
+  .ambient-grid,
+  .programmer-mode-grid,
+  .cyber-dots,
+  .aurora-sweep {
+    opacity: 0.3 !important;
+  }
+
+  .orb,
+  .programmer-mode-beam,
+  .programmer-mode-orb,
+  .glow-ring {
+    display: none;
+  }
+
+  .floating-card,
+  .interactive-panel:hover,
+  .tilt-3d:hover,
+  .neon-button:hover {
+    transform: none;
+  }
+
+  .terminal-panel::before,
+  .panel-lines::after,
+  .interactive-panel::after,
+  .type-line::after {
+    animation: none;
+  }
+
+  .lc-main {
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .floating-card,
+  .interactive-panel:hover,
+  .tilt-3d:hover,
+  .neon-button:hover {
+    transform: none !important;
   }
 }
